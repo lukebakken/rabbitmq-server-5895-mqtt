@@ -1,0 +1,181 @@
+{
+  "rabbit_version": "3.11.2",
+  "rabbitmq_version": "3.11.2",
+  "product_name": "RabbitMQ",
+  "product_version": "3.11.2",
+  "users": [
+    {
+      "name": "device",
+      "password_hash": "kUpnMHYRMANoCXHfIw7NRQoHDJr20lEx+zx60TJKDmGEkJ9d",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["device"],
+      "limits": {}
+    },
+    {
+      "name": "guest",
+      "password_hash": "STmaB2Mo0rSImlgTW4Ejj7MejhAzWGb6laMysaUyUGt5vdk3",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["administrator"],
+      "limits": {}
+    }
+  ],
+  "vhosts": [{ "name": "/" }],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "device",
+      "vhost": "/",
+      "configure": "^([amq.topic].*)$",
+      "write": "^([amq.topic].*)$",
+      "read": "^([amq.topic].*)$"
+    }
+  ],
+  "topic_permissions": [
+    {
+      "user": "device",
+      "vhost": "/",
+      "exchange": "amq.topic",
+      "write": "^user\\.(.*)\\.(state|(telemetry\\.(.*)))$",
+      "read": "^user\\.(.*)\\.(config|command)$"
+    }
+  ],
+  "parameters": [],
+  "global_parameters": [
+    {
+      "name": "internal_cluster_id",
+      "value": "rabbitmq-cluster-id-MpMhYRbJSd_6LInkcy8Tcg"
+    }
+  ],
+  "policies": [],
+  "queues": [
+    {
+      "name": "*.device.online.status",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.events",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.events.state",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.events.telemetry",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.events.analytics",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.events.eventsproto",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.events.records",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "*.user.command",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "exchanges": [],
+  "bindings": [
+    {
+      "source": "amq.rabbitmq.event",
+      "vhost": "/",
+      "destination": "*.device.online.status",
+      "destination_type": "queue",
+      "routing_key": "*",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.events",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.events",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.events.state",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.state",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.events.telemetry",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.events.telemetry",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.events.analytics",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.events.analytics",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.events.eventsproto",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.events.eventsproto",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.events.records",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.events.records",
+      "arguments": {}
+    },
+    {
+      "source": "amq.topic",
+      "vhost": "/",
+      "destination": "*.user.command",
+      "destination_type": "queue",
+      "routing_key": ".*.*.user.command",
+      "arguments": {}
+    }
+  ]
+}

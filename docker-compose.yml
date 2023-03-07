@@ -1,0 +1,12 @@
+version: '3'
+services:
+  rabbitmq:
+    # image: pivotalrabbitmq/rabbitmq:v3.12.0-beta.1-otp-max-bazel
+    image: rabbitmq:3-management
+    ports:
+      # HOST:CONTAINER
+      - 15672:15672
+    volumes:
+      - ./enabled_plugins:/etc/rabbitmq/enabled_plugins
+      - ./definitions.json:/etc/rabbitmq/definitions.json
+      - ./rabbitmq.conf:/etc/rabbitmq/conf.d/99-config.conf
